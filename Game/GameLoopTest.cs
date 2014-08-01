@@ -1,5 +1,6 @@
 ﻿using System;
 using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace MyGame
 {
@@ -33,6 +34,29 @@ namespace MyGame
 
 			Assert.IsTrue(game.Updated);
 		}
+
+		static public bool RunningDelegate() 
+		{
+			var queue = new Queue<bool>();
+			queue.Enqueue(true);
+			queue.Enqueue(true);
+			queue.Enqueue(false);
+
+			return queue.Dequeue();
+		}
+
+		[Test]
+		public void ItUpdatesUntilTheGameIsStopped()
+		{
+			var game = new TestGame();
+			game.RunningDelegate = RunningDelegate;
+			var gameLoop = new GameLoop(game);
+
+			gameLoop.Run();
+
+			Assert.AreEqual(2, game.UpdateCount);
+		}
 	}
 }
+
 

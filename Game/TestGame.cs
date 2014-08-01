@@ -3,14 +3,28 @@ using NUnit.Framework;
 
 namespace MyGame
 {
+	public delegate bool Running();
 	public class TestGame : Game
 	{
-		public bool Running {
+		public TestGame()
+		{
+			UpdateCount = 0;
+		}
+
+		public bool Running 
+		{
 			get;
 			set;
 		}
 
-		public bool Updated {
+		public Running RunningDelegate 
+		{
+			private get;
+			set;
+		}
+			
+		public bool Updated 
+		{
 			get;
 			set;
 		}
@@ -18,8 +32,14 @@ namespace MyGame
 		public void Update() 
 		{
 			Updated = true;
+			UpdateCount++;
+		}
+
+		public int UpdateCount 
+		{
+			get;
+			set;
 		}
 	}
-
 }
 
