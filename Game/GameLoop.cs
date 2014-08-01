@@ -15,6 +15,7 @@ namespace MyGame
 		{
 			while (Game.Running) {
 				Game.Update();
+				Game.Draw();
 			}
 		}
 	}

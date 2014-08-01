@@ -6,6 +6,7 @@ namespace MyGame
 	{
 		bool Running { get; }
 		void Update();
+		void Draw();
 	}
 }
 

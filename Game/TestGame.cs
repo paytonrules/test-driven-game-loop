@@ -3,11 +3,23 @@ using NUnit.Framework;
 
 namespace MyGame
 {
+	public class InvalidDrawException : Exception
+	{
+	}
+
 	public class TestGame : Game
 	{
 		public TestGame()
 		{
 			UpdateCount = 0;
+		}
+
+		public int UpdateCount { get; private set; }
+		public int DrawCount { get; private set; }
+		public bool Updated { 
+			get { 
+				return UpdateCount > 0;
+			}
 		}
 
 		public bool Running 
@@ -17,30 +29,23 @@ namespace MyGame
 			}
 		}
 
-		public bool Updated 
-		{
-			get;
-			set;
-		}
-
 		public void Update() 
 		{
-			Updated = true;
 			UpdateCount++;
 		}
 
-		public int UpdateCount 
+		public void Draw()
 		{
-			get;
-			set;
-		}
+			if (DrawCount != (UpdateCount - 1))
+				throw new InvalidDrawException();
 
+			DrawCount++;
+		}
+			
 		public Func<bool> RunningDelegate 
 		{
 			private get;
 			set;
-		}
-			
+		}			
 	}
 }
-

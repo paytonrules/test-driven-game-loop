@@ -58,6 +58,24 @@ namespace MyGame
 
 			Assert.AreEqual(2, game.UpdateCount);
 		}
+
+		[Test]
+		public void ItRunsADrawAfterUpdate()
+		{
+			var game = new TestGame();
+			var queue = new Queue<bool>();
+			queue.Enqueue(true);
+			queue.Enqueue(false);
+			game.RunningDelegate = () => {
+				return queue.Dequeue();
+			};
+
+			var gameLoop = new GameLoop(game);
+
+			gameLoop.Run();
+
+			Assert.AreEqual(1, game.DrawCount);
+		}
 	}
 }
 
