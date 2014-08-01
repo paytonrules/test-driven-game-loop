@@ -9,14 +9,29 @@ namespace MyGame
 		[Test]
 		public void ItDoesNothingWhenTheGameIsStopped()
 		{
-			var game = new TestGame();
-			game.Running = false;
+			var game = new TestGame {
+				Running = false
+			};
 
 			var gameLoop = new GameLoop(game);
 
 			gameLoop.Run();
 
 			Assert.IsFalse(game.Updated);
+		}
+
+		[Test]
+		public void ItRunsUpdateOnceBeforeTheGameIsStopped()
+		{
+			var game = new TestGame {
+				Running = true
+			};
+
+			var gameLoop = new GameLoop(game);
+
+			gameLoop.Run();
+
+			Assert.IsTrue(game.Updated);
 		}
 	}
 }

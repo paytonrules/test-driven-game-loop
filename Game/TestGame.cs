@@ -14,6 +14,11 @@ namespace MyGame
 			get;
 			set;
 		}
+
+		public void Update() 
+		{
+			Updated = true;
+		}
 	}
 
 }
