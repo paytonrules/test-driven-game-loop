@@ -1,11 +1,22 @@
 ﻿using System;
+using NUnit.Framework;
 
-namespace Game
+namespace MyGame
 {
+	[TestFixture]
 	public class GameLoopTest
 	{
-		public GameLoopTest()
+		[Test]
+		public void ItDoesNothingWhenTheGameIsStopped()
 		{
+			var game = new TestGame();
+			game.Running = false;
+
+			var gameLoop = new GameLoop(game);
+
+			gameLoop.Run();
+
+			Assert.IsFalse(game.Updated);
 		}
 	}
 }

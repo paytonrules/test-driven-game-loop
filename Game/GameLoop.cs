@@ -1,11 +1,17 @@
 ﻿using System;
+using NUnit.Framework;
 
-namespace Game
+namespace MyGame
 {
 	public class GameLoop
 	{
-		public GameLoop()
+		public GameLoop(Game game)
 		{
+		}
+
+		public void Run()
+		{
+			throw new NotImplementedException();
 		}
 	}
 }
