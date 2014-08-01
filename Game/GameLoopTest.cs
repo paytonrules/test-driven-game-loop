@@ -10,8 +10,9 @@ namespace MyGame
 		[Test]
 		public void ItDoesNothingWhenTheGameIsStopped()
 		{
-			var game = new TestGame {
-				Running = false
+			var game = new TestGame();
+			game.RunningDelegate = () => {
+				return false;
 			};
 
 			var gameLoop = new GameLoop(game);
@@ -24,8 +25,12 @@ namespace MyGame
 		[Test]
 		public void ItRunsUpdateOnceBeforeTheGameIsStopped()
 		{
-			var game = new TestGame {
-				Running = true
+			var game = new TestGame();
+			var queue = new Queue<bool>();
+			queue.Enqueue(true);
+			queue.Enqueue(false);
+			game.RunningDelegate = () => {
+				return queue.Dequeue();
 			};
 
 			var gameLoop = new GameLoop(game);
@@ -35,21 +40,18 @@ namespace MyGame
 			Assert.IsTrue(game.Updated);
 		}
 
-		static public bool RunningDelegate() 
-		{
-			var queue = new Queue<bool>();
-			queue.Enqueue(true);
-			queue.Enqueue(true);
-			queue.Enqueue(false);
-
-			return queue.Dequeue();
-		}
-
 		[Test]
 		public void ItUpdatesUntilTheGameIsStopped()
 		{
 			var game = new TestGame();
-			game.RunningDelegate = RunningDelegate;
+			var queue = new Queue<bool>();
+			queue.Enqueue(true);
+			queue.Enqueue(true);
+			queue.Enqueue(false);
+			game.RunningDelegate = () => {
+				return queue.Dequeue();
+			};
+
 			var gameLoop = new GameLoop(game);
 
 			gameLoop.Run();

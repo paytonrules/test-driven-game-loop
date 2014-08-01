@@ -3,7 +3,6 @@ using NUnit.Framework;
 
 namespace MyGame
 {
-	public delegate bool Running();
 	public class TestGame : Game
 	{
 		public TestGame()
@@ -13,16 +12,11 @@ namespace MyGame
 
 		public bool Running 
 		{
-			get;
-			set;
+			get {
+				return RunningDelegate();
+			}
 		}
 
-		public Running RunningDelegate 
-		{
-			private get;
-			set;
-		}
-			
 		public bool Updated 
 		{
 			get;
@@ -40,6 +34,13 @@ namespace MyGame
 			get;
 			set;
 		}
+
+		public Func<bool> RunningDelegate 
+		{
+			private get;
+			set;
+		}
+			
 	}
 }
 
