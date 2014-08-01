@@ -13,7 +13,7 @@ namespace MyGame
 
 		public void Run()
 		{
-			if (Game.Running) {
+			while (Game.Running) {
 				Game.Update();
 			}
 		}
