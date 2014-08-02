@@ -1,5 +1,6 @@
 using System;
 using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace MyGame
 {
@@ -16,6 +17,8 @@ namespace MyGame
 
 		public int UpdateCount { get; private set; }
 		public int DrawCount { get; private set; }
+		protected Queue<bool> runningAnswers;
+
 		public bool Updated { 
 			get { 
 				return UpdateCount > 0;
@@ -25,7 +28,7 @@ namespace MyGame
 		public bool Running 
 		{
 			get {
-				return RunningDelegate();
+				return runningAnswers.Dequeue();
 			}
 		}
 
@@ -42,10 +45,12 @@ namespace MyGame
 			DrawCount++;
 		}
 			
-		public Func<bool> RunningDelegate 
+		public void EnqueRunningAnswers(params bool[] answers)
 		{
-			private get;
-			set;
-		}			
+			runningAnswers = new Queue<bool>();
+			foreach (var answer in answers) {
+				runningAnswers.Enqueue(answer);
+			}
+		}
 	}
 }

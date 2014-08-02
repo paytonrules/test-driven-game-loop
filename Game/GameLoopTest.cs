@@ -1,6 +1,5 @@
 ﻿using System;
 using NUnit.Framework;
-using System.Collections.Generic;
 
 namespace MyGame
 {
@@ -11,9 +10,7 @@ namespace MyGame
 		public void ItDoesNothingWhenTheGameIsStopped()
 		{
 			var game = new TestGame();
-			game.RunningDelegate = () => {
-				return false;
-			};
+			game.EnqueRunningAnswers(false);
 
 			var gameLoop = new GameLoop(game);
 
@@ -26,12 +23,7 @@ namespace MyGame
 		public void ItRunsUpdateOnceBeforeTheGameIsStopped()
 		{
 			var game = new TestGame();
-			var queue = new Queue<bool>();
-			queue.Enqueue(true);
-			queue.Enqueue(false);
-			game.RunningDelegate = () => {
-				return queue.Dequeue();
-			};
+			game.EnqueRunningAnswers(true, false);
 
 			var gameLoop = new GameLoop(game);
 
@@ -44,13 +36,7 @@ namespace MyGame
 		public void ItUpdatesUntilTheGameIsStopped()
 		{
 			var game = new TestGame();
-			var queue = new Queue<bool>();
-			queue.Enqueue(true);
-			queue.Enqueue(true);
-			queue.Enqueue(false);
-			game.RunningDelegate = () => {
-				return queue.Dequeue();
-			};
+			game.EnqueRunningAnswers(true, true, false);
 
 			var gameLoop = new GameLoop(game);
 
@@ -63,12 +49,7 @@ namespace MyGame
 		public void ItRunsADrawAfterUpdate()
 		{
 			var game = new TestGame();
-			var queue = new Queue<bool>();
-			queue.Enqueue(true);
-			queue.Enqueue(false);
-			game.RunningDelegate = () => {
-				return queue.Dequeue();
-			};
+			game.EnqueRunningAnswers(true, false);
 
 			var gameLoop = new GameLoop(game);
 
