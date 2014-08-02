@@ -10,13 +10,10 @@ namespace MyGame
 
 	public class TestGame : Game
 	{
-		public TestGame()
-		{
-			UpdateCount = 0;
-		}
-
 		public int UpdateCount { get; private set; }
 		public int DrawCount { get; private set; }
+		public InputState UpdatedWith { get; set; }
+
 		protected Queue<bool> runningAnswers;
 
 		public bool Updated { 
@@ -32,7 +29,12 @@ namespace MyGame
 			}
 		}
 
-		public void Update() 
+		public TestGame()
+		{
+			UpdateCount = 0;
+		}
+
+		public void Update(InputState input) 
 		{
 			UpdateCount++;
 		}

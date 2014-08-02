@@ -57,6 +57,27 @@ namespace MyGame
 
 			Assert.AreEqual(1, game.DrawCount);
 		}
+
+		// Input
+		[Test]
+		public void ItPassesTheInputResultsToUpdate()
+		{
+			var game = new TestGame();
+			var inputHandler = new StubInputHandler();
+			var inputState = new InputState();
+			inputHandler.ReturnedInput = inputState;
+
+			var gameLoop = new GameLoop {
+				Game = game,
+				InputHandler = inputHandler
+			};
+
+			gameLoop.Run();
+
+			// Note ARe SAME not EQUAL
+			Assert.AreSame(inputState, game.UpdatedWith);
+		}
+		// Fixed Update Step
 	}
 }
 
