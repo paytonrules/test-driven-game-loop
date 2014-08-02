@@ -3,24 +3,15 @@ using NUnit.Framework;
 
 namespace MyGame
 {
-	public class NullInputHandler : InputHandler 
-	{
-		public InputState CurrentState { get { return new InputState(); }}
-	}
-
 	public class GameLoop
 	{
 		public Game Game { get; set; }
 		public InputHandler InputHandler { get; set; }
 
-		public GameLoop() 
-		{
-		}
-
-		public GameLoop(Game game)
+		public GameLoop(Game game, InputHandler inputHandler) 
 		{
 			Game = game;
-			InputHandler = new NullInputHandler();
+			InputHandler = inputHandler;
 		}
 
 		public void Run()

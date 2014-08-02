@@ -3,6 +3,11 @@ using NUnit.Framework;
 
 namespace MyGame
 {
+	public class NullInputHandler : InputHandler
+	{
+		public InputState CurrentState { get { return new InputState(); } }
+	}
+
 	[TestFixture]
 	public class GameLoopTest
 	{
@@ -12,7 +17,7 @@ namespace MyGame
 			var game = new TestGame();
 			game.EnqueRunningAnswers(false);
 
-			var gameLoop = new GameLoop(game);
+			var gameLoop = new GameLoop(game, new NullInputHandler());
 
 			gameLoop.Run();
 
@@ -25,7 +30,7 @@ namespace MyGame
 			var game = new TestGame();
 			game.EnqueRunningAnswers(true, false);
 
-			var gameLoop = new GameLoop(game);
+			var gameLoop = new GameLoop(game, new NullInputHandler());
 
 			gameLoop.Run();
 
@@ -38,7 +43,7 @@ namespace MyGame
 			var game = new TestGame();
 			game.EnqueRunningAnswers(true, true, false);
 
-			var gameLoop = new GameLoop(game);
+			var gameLoop = new GameLoop(game, new NullInputHandler());
 
 			gameLoop.Run();
 
@@ -51,7 +56,7 @@ namespace MyGame
 			var game = new TestGame();
 			game.EnqueRunningAnswers(true, false);
 
-			var gameLoop = new GameLoop(game);
+			var gameLoop = new GameLoop(game, new NullInputHandler());
 
 			gameLoop.Run();
 
@@ -67,10 +72,7 @@ namespace MyGame
 			var inputState = new InputState();
 			inputHandler.ReturnedInput = inputState;
 
-			var gameLoop = new GameLoop {
-				Game = game,
-				InputHandler = inputHandler
-			};
+			var gameLoop = new GameLoop(game, inputHandler);
 
 			gameLoop.Run();
 
