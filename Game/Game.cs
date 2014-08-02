@@ -9,4 +9,3 @@ namespace MyGame
 		void Draw();
 	}
 }
-

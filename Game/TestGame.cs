@@ -24,9 +24,7 @@ namespace MyGame
 
 		public bool Running 
 		{
-			get {
-				return runningAnswers.Dequeue();
-			}
+			get { return runningAnswers.Dequeue(); }
 		}
 
 		public TestGame()
@@ -36,6 +34,7 @@ namespace MyGame
 
 		public void Update(InputState input) 
 		{
+			UpdatedWith = input;
 			UpdateCount++;
 		}
 

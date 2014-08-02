@@ -4,7 +4,6 @@ namespace MyGame
 {
 	public interface InputHandler
 	{
+		InputState CurrentState { get; }
 	}
-
 }
-

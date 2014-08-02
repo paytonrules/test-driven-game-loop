@@ -2,8 +2,7 @@
 
 namespace MyGame
 {
-	public struct InputState
+	public class InputState
 	{
 	}
 }
-
