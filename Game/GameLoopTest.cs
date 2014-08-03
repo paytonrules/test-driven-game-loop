@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 
 namespace MyGame
@@ -6,6 +7,15 @@ namespace MyGame
 	public class NullInputHandler : InputHandler
 	{
 		public InputState CurrentState { get { return new InputState(); } }
+	}
+
+	public class FakeTimer : Timer
+	{
+		public Queue<float> Times { get; set; }
+
+		public float GetTime() {
+			return Times.Dequeue();
+		}
 	}
 
 	[TestFixture]
@@ -77,6 +87,28 @@ namespace MyGame
 			gameLoop.Run();
 
 			Assert.AreSame(inputHandler.ReturnedInput, game.UpdatedWith);
+		}
+
+		[Test]
+		public void ItWillUpdateOneExtraTimeToCatchUpWhenTheLagIsTooLarge()
+		{
+			var game = new TestGame();
+			game.EnqueRunningAnswers(true, false);
+			var time = new FakeTimer();
+			time.Times = new Queue<float>();
+			time.Times.Enqueue(0);
+			time.Times.Enqueue(17);
+
+			var gameLoop = new GameLoop {
+				Game = game,
+				InputHandler = new NullInputHandler(),
+				Timer = time
+			};
+
+			gameLoop.Run();
+
+			Assert.AreEqual(2, game.UpdateCount);
+			Assert.AreEqual(1, game.DrawCount);
 		}
 	}
 }

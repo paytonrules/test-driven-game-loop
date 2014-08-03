@@ -39,6 +39,7 @@
     <Compile Include="StubInputHandler.cs" />
     <Compile Include="InputHandler.cs" />
     <Compile Include="InputState.cs" />
+    <Compile Include="Timer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
