@@ -3,40 +3,32 @@ using NUnit.Framework;
 
 namespace MyGame
 {
-	public class NullTimer : Timer
-	{
-		public float GetTime() {
-			return 0;
-		}
-	}
-
 	public class GameLoop
 	{
+		const float DefaultFrameLength = (1.0f / 60.0f) * 1000;
 		public Game Game { get; set; }
 		public InputHandler InputHandler { get; set; }
 		public Timer Timer { get; set; }
+		public float FrameLength;
 
 		public GameLoop()
 		{
+			FrameLength = DefaultFrameLength;
+			InputHandler = new NullInputHandler();
 		}
-
-		public GameLoop(Game game, InputHandler inputHandler) 
-		{
-			Game = game;
-			InputHandler = inputHandler;
-			Timer = new NullTimer();
-		}
-
+			
 		public void Run()
 		{
 			var previousTime = Timer.GetTime();
 			while (Game.Running) {
 				var currentTime = Timer.GetTime();
 				var lag = currentTime - previousTime;
-				while (lag >= 0) {
+
+				while (lag >= FrameLength) {
 					Game.Update(InputHandler.CurrentState);
-					lag -= 16;
+					lag -= FrameLength;
 				}
+
 				Game.Draw();
 			}
 		}

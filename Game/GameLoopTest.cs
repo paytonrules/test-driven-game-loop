@@ -13,8 +13,26 @@ namespace MyGame
 	{
 		public Queue<float> Times { get; set; }
 
-		public float GetTime() {
+		public float GetTime() 
+		{
 			return Times.Dequeue();
+		}
+	}
+
+	public class SecondTicker : Timer
+	{
+		float currentTime;
+
+		public SecondTicker()
+		{
+			currentTime = 0.0f;
+		}
+
+		public float GetTime() 
+		{
+			var existingTime = currentTime;
+			currentTime++;
+			return existingTime;
 		}
 	}
 
@@ -27,7 +45,10 @@ namespace MyGame
 			var game = new TestGame();
 			game.EnqueRunningAnswers(false);
 
-			var gameLoop = new GameLoop(game, new NullInputHandler());
+			var gameLoop = new GameLoop {
+				Game = game, 
+				Timer = new SecondTicker()
+			};
 
 			gameLoop.Run();
 
@@ -40,7 +61,11 @@ namespace MyGame
 			var game = new TestGame();
 			game.EnqueRunningAnswers(true, false);
 
-			var gameLoop = new GameLoop(game, new NullInputHandler());
+			var gameLoop = new GameLoop {
+				Game = game,
+				Timer = new SecondTicker(),
+				FrameLength = 1
+			};
 
 			gameLoop.Run();
 
@@ -53,7 +78,11 @@ namespace MyGame
 			var game = new TestGame();
 			game.EnqueRunningAnswers(true, true, false);
 
-			var gameLoop = new GameLoop(game, new NullInputHandler());
+			var gameLoop = new GameLoop {
+				Game = game,
+				Timer = new SecondTicker(),
+				FrameLength = 1.0f
+			};
 
 			gameLoop.Run();
 
@@ -66,7 +95,11 @@ namespace MyGame
 			var game = new TestGame();
 			game.EnqueRunningAnswers(true, false);
 
-			var gameLoop = new GameLoop(game, new NullInputHandler());
+			var gameLoop = new GameLoop { 
+				Game = game,
+				Timer = new SecondTicker(),
+				FrameLength = 1
+			};
 
 			gameLoop.Run();
 
@@ -82,7 +115,12 @@ namespace MyGame
 			var inputState = new InputState();
 			inputHandler.ReturnedInput = inputState;
 
-			var gameLoop = new GameLoop(game, inputHandler);
+			var gameLoop = new GameLoop {
+				Game = game , 
+				InputHandler = inputHandler, 
+				Timer = new SecondTicker(),
+				FrameLength = 1
+			};
 
 			gameLoop.Run();
 
@@ -97,12 +135,13 @@ namespace MyGame
 			var time = new FakeTimer();
 			time.Times = new Queue<float>();
 			time.Times.Enqueue(0);
-			time.Times.Enqueue(17);
+			time.Times.Enqueue(2);
 
 			var gameLoop = new GameLoop {
 				Game = game,
 				InputHandler = new NullInputHandler(),
-				Timer = time
+				Timer = time, 
+				FrameLength = 1
 			};
 
 			gameLoop.Run();
@@ -110,6 +149,9 @@ namespace MyGame
 			Assert.AreEqual(2, game.UpdateCount);
 			Assert.AreEqual(1, game.DrawCount);
 		}
+
+		// TODO: Make sure we always get one Update
+		// TODO: Make sure we only get input once 
 	}
 }
 
