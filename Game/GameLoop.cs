@@ -24,6 +24,8 @@ namespace MyGame
 				var currentTime = Timer.GetTime();
 				var lag = currentTime - previousTime;
 
+				InputHandler.Poll();
+
 				while (lag >= FrameLength) {
 					Game.Update(InputHandler.CurrentState);
 					lag -= FrameLength;

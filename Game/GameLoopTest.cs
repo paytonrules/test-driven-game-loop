@@ -7,6 +7,7 @@ namespace MyGame
 	public class NullInputHandler : InputHandler
 	{
 		public InputState CurrentState { get { return new InputState(); } }
+		public void Poll() {}
 	}
 
 	public class FakeTimer : Timer
@@ -70,6 +71,7 @@ namespace MyGame
 			gameLoop.Run();
 
 			Assert.IsTrue(game.Updated);
+			Assert.AreEqual(1, game.UpdateCount);
 		}
 
 		[Test]
@@ -149,9 +151,6 @@ namespace MyGame
 			Assert.AreEqual(2, game.UpdateCount);
 			Assert.AreEqual(1, game.DrawCount);
 		}
-
-		// TODO: Make sure we always get one Update
-		// TODO: Make sure we only get input once 
 	}
 }
 
