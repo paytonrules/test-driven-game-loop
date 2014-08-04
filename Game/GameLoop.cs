@@ -29,6 +29,7 @@ namespace MyGame
 					lag -= FrameLength;
 				}
 
+				previousTime = currentTime;
 				Game.Draw();
 			}
 		}
