@@ -4,22 +4,6 @@ using NUnit.Framework;
 
 namespace MyGame
 {
-	public class NullInputHandler : InputHandler
-	{
-		public InputState CurrentState { get { return new InputState(); } }
-		public void Poll() {}
-	}
-
-	public class FakeTimer : Timer
-	{
-		public Queue<float> Times { get; set; }
-
-		public float GetTime() 
-		{
-			return Times.Dequeue();
-		}
-	}
-
 	public class SecondTicker : Timer
 	{
 		float currentTime;
@@ -134,16 +118,13 @@ namespace MyGame
 		{
 			var game = new TestGame();
 			game.EnqueRunningAnswers(true, false);
-			var time = new FakeTimer();
-			time.Times = new Queue<float>();
-			time.Times.Enqueue(0);
-			time.Times.Enqueue(2);
+			var time = new SecondTicker();
 
 			var gameLoop = new GameLoop {
 				Game = game,
 				InputHandler = new NullInputHandler(),
 				Timer = time, 
-				FrameLength = 1
+				FrameLength = 0.5f
 			};
 
 			gameLoop.Run();
@@ -153,5 +134,3 @@ namespace MyGame
 		}
 	}
 }
-
-
