@@ -40,8 +40,8 @@ namespace MyGame
 
 		public void Draw()
 		{
-			if (DrawCount > UpdateCount)
-				throw new InvalidDrawException();
+			//if (DrawCount > UpdateCount)
+			//	throw new InvalidDrawException();
 
 			DrawCount++;
 		}

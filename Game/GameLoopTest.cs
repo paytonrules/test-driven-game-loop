@@ -132,5 +132,43 @@ namespace MyGame
 			Assert.AreEqual(2, game.UpdateCount);
 			Assert.AreEqual(1, game.DrawCount);
 		}
+
+		[Test]
+		public void ItSkipsUpdateToSlowGameProgressWhenTheLagIsTooSmall() {
+			var game = new TestGame();
+			game.EnqueRunningAnswers(true, false);
+			var time = new SecondTicker();
+
+			var gameLoop = new GameLoop {
+				Game = game,
+				InputHandler = new NullInputHandler(),
+				Timer = time, 
+				FrameLength = 2
+			};
+
+			gameLoop.Run();
+
+			Assert.AreEqual(0, game.UpdateCount);
+			Assert.AreEqual(1, game.DrawCount);
+		}
+
+		[Test]
+		public void ItRunsUpdateEventually() {
+			var game = new TestGame();
+			game.EnqueRunningAnswers(true, true, true, true, false);
+			var time = new SecondTicker();
+
+			var gameLoop = new GameLoop {
+				Game = game,
+				InputHandler = new NullInputHandler(),
+				Timer = time, 
+				FrameLength = 2
+			};
+
+			gameLoop.Run();
+
+			Assert.AreEqual(1, game.UpdateCount);
+			Assert.AreEqual(4, game.DrawCount);
+		}
 	}
 }
